@@ -59,6 +59,25 @@ function downloadJSON(data, filename) {
 }
 
 /* ------------------------------------------------------------------ */
+/* 自動保存(進捗・プロフィール)まわりのユーティリティ                       */
+/* ブラウザのlocalStorageに保存する。プライベートブラウジング等で         */
+/* localStorageが使えない場合は静かに失敗し、その旨をfinally側で扱う。   */
+/* ------------------------------------------------------------------ */
+
+function loadLocal(key) {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw !== null ? { value: raw } : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function saveLocal(key, value) {
+  localStorage.setItem(key, value);
+}
+
+/* ------------------------------------------------------------------ */
 /* データ定義                                                          */
 /* ------------------------------------------------------------------ */
 
@@ -1010,7 +1029,7 @@ export default function SkillQuest() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await window.storage.get('skill-quest-progress');
+        const res = loadLocal('skill-quest-progress');
         if (res && res.value) {
           const parsed = JSON.parse(res.value);
           setProgress({ ...emptyProgress(), ...parsed });
@@ -1027,7 +1046,7 @@ export default function SkillQuest() {
     if (!loaded) return;
     (async () => {
       try {
-        await window.storage.set('skill-quest-progress', JSON.stringify(progress));
+        saveLocal('skill-quest-progress', JSON.stringify(progress));
       } catch (e) {
         console.error('保存に失敗しました', e);
       }
@@ -1037,7 +1056,7 @@ export default function SkillQuest() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await window.storage.get('skill-quest-profile');
+        const res = loadLocal('skill-quest-profile');
         if (res && res.value) {
           const parsed = JSON.parse(res.value);
           setProfile({ ...emptyProfile(), ...parsed });
@@ -1054,7 +1073,7 @@ export default function SkillQuest() {
     if (!profileLoaded) return;
     (async () => {
       try {
-        await window.storage.set('skill-quest-profile', JSON.stringify(profile));
+        saveLocal('skill-quest-profile', JSON.stringify(profile));
       } catch (e) {
         console.error('プロフィールの保存に失敗しました', e);
       }
@@ -1529,7 +1548,7 @@ export default function SkillQuest() {
           <div className="hero">
             <div className="hero-eyebrow">Personal Skill Tracker</div>
             <div className="hero-title">SKILL QUEST</div>
-            <p className="hero-sub">Lv.100の「伝説」を目指そう！</p>
+            <p className="hero-sub">5つの言語コースをそれぞれレベルアップさせよう。全レッスン完了でゴールドバッジ、Lv.100は上位1%の「伝説」の領域。</p>
             <div className="hero-stats">
               <div className="hero-stat"><b>{totalLessonsDone}</b><span>完了レッスン</span></div>
               <div className="hero-stat"><b>{COURSES.length}</b><span>挑戦中のコース</span></div>

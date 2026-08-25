@@ -1,16 +1,40 @@
-# React + Vite
+# SkillQuest
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+HTML/CSS・JavaScript・TypeScript・React・SQL の5コースを、RPG風のレベル・バッジシステムで進捗管理を行うことでスキルの可視化と学習意欲の向上を図るアプリです。
 
-Currently, two official plugins are available:
+## 主な機能
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **ダッシュボード** — 5コースの進捗をカード形式で一覧表示
+- **レッスン管理** — 章ごとにレッスンをチェックして経験値(XP)を獲得。学習時間のログでもXPが入る
+- **レベル・バッジシステム** — コースごとに独立してレベルアップ。ブロンズ〜伝説までの称号バッジを獲得
+- **プロフィール画面** — レベルに応じて解放されるアイコン・称号をカスタマイズ可能。バッジ図鑑で獲得状況を一覧できる
+- **バックアップ / 復元** — 進捗データをJSONファイルとして書き出し・読み込み
+- **自動保存** — 進捗はブラウザの `localStorage` に自動保存され、リロードしても消えない
 
-## React Compiler
+## 技術スタック
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- [React](https://react.dev/)
+- [Vite](https://vitejs.dev/)
+- [lucide-react](https://lucide.dev/) — アイコン
 
-## Expanding the ESLint configuration
+## セットアップ
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+git clone <このリポジトリのURL>
+cd skill-quest
+npm install
+npm run dev
+```
+
+本番ビルド:
+
+```bash
+npm run build
+npm run preview
+```
+
+## データの保存について
+
+- 進捗・プロフィールデータはブラウザの `localStorage` にのみ保存され、外部には送信されません
+- サイドバーの「セーブ」からJSONファイルとしてバックアップでき、「ロード」で復元できます
+- `localStorage` はブラウザ・端末ごとに独立しているため、環境を変える場合は上記のJSONバックアップで移行してください
